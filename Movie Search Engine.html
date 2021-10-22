@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search Engine</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        body {
+            background-color: #19232e;
+         } 
+        /* #container {
+            border: 5px solid yellow;
+        } */
+        #input_details{
+            margin-bottom: 6%;
+        }
+        #container {
+            display: grid;
+            gap: 7%;
+            grid-template-columns: 30% 10%;
+        }
+        #name {
+            margin-left: 10%;
+            width: 70%;
+            height: 25px;
+            position: fixed;
+            
+            /* border-top-style: hidden;
+            border-right-style: hidden;
+            border-left-style: hidden;
+            border-bottom-style: groove; */
+        }
+        #name:focus {
+            outline: none;
+        }
+        h1 {
+            text-align: center;
+            color: rgb(219, 205, 10);
+        }
+        button {
+            position: fixed;
+            right: 257px;
+            border : none;
+        }
+
+    </style>
+    
+</head>
+<body>
+    
+        <h1>Movie Search Engine</h1>
+        <div id="input_details">
+            <input type="text" id="name" placeholder="Enter Movie Name"/>
+            <!-- <button onclick="movieSearch()">Search</button> -->
+            <button onclick="movieSearch()"><i class="material-icons">search</i></button>
+        </div>
+        
+        <div id="container"></div>
+
+
+</body>
+
+<script>
+
+    // Here is your key: cf72acbd
+// OMDb API: http://www.omdbapi.com/?i=tt3896198&apikey=cf72acbd
+
+// console.log(fetch("http://www.omdbapi.com/?i=tt3896198&apikey=cf72acbd"));
+
+let container = document.getElementById("container");
+
+async function movieSearch() {
+
+    // let res = await fetch("http://www.omdbapi.com/?i=tt3896198&apikey=cf72acbd");
+    let movie_name = document.getElementById("name").value;
+
+    // let res = await fetch(`http://www.omdbapi.com/?t=Game of Thrones&&apikey=cf72acbd`);
+    let res = await fetch(`http://www.omdbapi.com/?t=${movie_name}&&apikey=cf72acbd`);
+    // http://www.omdbapi.com/?i=tt0944947&Season=1
+    // console.log("res: ",res);
+    let data = await res.json();
+    console.log("data: ",data); 
+
+    showMovieDetails(data);
+}
+
+
+function showMovieDetails(movie_details) {
+
+    // movies.forEach(function(movie_details)  {
+
+    container.innerHTML = null;
+
+    let div = document.createElement("div");
+    let div1 = document.createElement("div");
+
+    let poster = document.createElement("img");
+    poster.src= movie_details.Poster;
+
+    let title = document.createElement("p");
+    title.innerHTML = "Title : " + " " + movie_details.Title;
+
+    let plot = document.createElement("p");
+    plot.innerHTML = "Plot : " + " " + movie_details.Plot;
+
+    let year = document.createElement("p");
+    year.innerHTML = "Year :" + " " + movie_details.Year;
+
+    let actors = document.createElement("p");
+    actors.innerHTML = "Actors :" + " " + movie_details.Actors;
+
+    let director = document.createElement("p");
+    director.innerHTML = "Director :" + " " + movie_details.Director;
+
+    let genre = document.createElement("p");
+    genre.innerHTML = "Genre :" + " " + movie_details.Genre;
+
+    let language = document.createElement("p");
+    language.innerHTML = "Language :" + " " + movie_details.Language;
+
+    let rating = document.createElement("p");
+    rating.innerHTML = "imdbRating :" + " " + movie_details.imdbRating;
+
+    div.append(title,plot,actors,year,director,genre,language,rating);
+    div.style.height = "440px";
+    div.style.width = "400px";
+    div.style.color = "indigo";
+    console.log(div);
+
+    div1.append(poster);
+    div1.style.marginLeft = "5%";
+
+    container.append(div1,div);
+    container.style.border = "solid green";
+    container.style.backgroundColor = "grey";
+    container.style.borderRadius = "50px";
+    container.style.padding = "1%";
+
+    // })
+}
+
+</script>
+</html>
